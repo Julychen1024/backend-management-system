@@ -1,0 +1,32 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    /* ========== Node.js 环境 ========== */
+    "target": "ES2022",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    
+    /* ========== Node.js 全局类型 ========== */
+    "types": ["node"],
+    
+    /* ========== 类型安全 ========== */
+    "strict": true,
+    "skipLibCheck": true,
+    
+    /* ========== 输出控制（工具链需要）========== */
+    "noEmit": false,           // 允许输出（如类型声明）
+    "declaration": true,       // 生成 .d.ts
+    "declarationMap": true,    // 生成 .d.ts.map
+    "incremental": true,       // 增量编译加速
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo"
+  },
+  
+  /* ========== 包含 Node 脚本和配置 ========== */
+  "include": [
+    "vite.config.ts",
+    "package.json",
+    "*.config.{js,ts}"
+  ],
+  "exclude": ["node_modules", "src"]
+}
