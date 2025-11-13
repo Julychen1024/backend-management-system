@@ -1,0 +1,5 @@
+#!/bin/sh
+# .husky/pre-commit
+
+# 执行 lint-staged 检查
+pnpm exec lint-staged
