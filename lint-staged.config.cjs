@@ -28,4 +28,8 @@ module.exports = {
 
   // ========== 配置文件格式化 ==========
   '*.{yml,yaml}': ['prettier --write', 'git add'],
+
+  // ========== 提交信息文件处理==========
+  // 若项目包含提交模板，可格式化模板文件
+  '.gitcommitmessage': ['prettier --write', 'git add'],
 };

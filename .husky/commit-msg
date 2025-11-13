@@ -1,0 +1,5 @@
+#!/bin/sh
+# .husky/commit-msg
+
+# 通过 commitlint 校验提交信息格式
+pnpm exec commitlint --edit $1
