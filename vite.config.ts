@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
+import tailwindcss from '@tailwindcss/vite';
 
 // 获取当前文件目录（兼容ESM）
 const __filename = fileURLToPath(import.meta.url);
@@ -21,25 +22,19 @@ export default defineConfig(({ mode }) => {
         babel: {
           plugins: [
             // 生产环境自动移除console
-            ...(mode === 'production' ? [['transform-remove-console', { exclude: ['error', 'warn'] }]] : []),
+            ...(mode === 'production'
+              ? [['transform-remove-console', { exclude: ['error', 'warn'] }]]
+              : []),
           ],
         },
       }),
+      tailwindcss(),
     ],
 
     // ========== 路径别名 ==========
     resolve: {
       alias: {
         '@': resolve(__dirname, './src'),
-        '@components': resolve(__dirname, './src/components'),
-        '@pages': resolve(__dirname, './src/pages'),
-        '@utils': resolve(__dirname, './src/utils'),
-        '@hooks': resolve(__dirname, './src/hooks'),
-        '@services': resolve(__dirname, './src/services'),
-        '@stores': resolve(__dirname, './src/stores'),
-        '@types': resolve(__dirname, './src/types'),
-        '@assets': resolve(__dirname, './src/assets'),
-        '@layouts': resolve(__dirname, './src/layouts'),
       },
       // 自动解析扩展名
       extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
@@ -59,6 +54,13 @@ export default defineConfig(({ mode }) => {
       //     rewrite: (path) => path.replace(/^\/api/, ''),
       //   },
       // },
+    },
+
+    // ========== 预览服务器配置 ==========
+    preview: {
+      port: Number(env.VITE_APP_PORT) || 3000, // 支持环境变量配置
+      host: true, // 监听所有地址
+      cors: true,
     },
 
     // ========== 构建优化 ==========
@@ -123,12 +125,6 @@ export default defineConfig(({ mode }) => {
     css: {
       // 开发环境启用CSS sourcemap
       devSourcemap: true,
-    },
-
-    // ========== ESBuild 配置 ==========
-    esbuild: {
-      // 支持 JSX 注入（无需手动import React）
-      jsxInject: `import React from 'react'`,
     },
 
     // ========== 性能优化 ==========
