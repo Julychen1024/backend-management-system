@@ -3,7 +3,7 @@ module.exports = {
   // ========== TypeScript/JavaScript 文件检查 ==========
   '**/*.{ts,tsx,js,jsx}': [
     // ESLint 自动修复与检查
-    'eslint --fix --max-warnings 0',
+    'eslint --fix --max-warnings 0 --no-warn-ignored src/',
     // Prettier 格式化（二次校验）
     'prettier --write',
     // Git 添加修复后的文件
