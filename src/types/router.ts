@@ -1,13 +1,13 @@
-export interface RouteItem {
-  path: string;
-  component: React.ComponentType;
-  layout?: React.ComponentType;
-  meta?: {
-    title?: string;
-    requiresAuth?: boolean;
-  };
+import { RouteObject } from 'react-router';
+
+export interface RouteMeta {
+  title?: string;
+  requiresAuth?: boolean;
+  icon?: React.ReactNode;
+  hideInMenu?: boolean;
 }
 
-export interface RouterConfig {
-  routes: RouteItem[];
-}
+export type AppRoute = RouteObject & {
+  meta?: RouteMeta;
+  children?: AppRoute[];
+};
