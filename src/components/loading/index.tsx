@@ -1,4 +1,4 @@
-// src/components/ui/Loading.tsx
+// src/components/Loading.tsx
 import React from 'react';
 import { Box, CircularProgress, Typography, Fade } from '@mui/material';
 import { styled } from '@mui/material/styles';

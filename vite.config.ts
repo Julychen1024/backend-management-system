@@ -18,18 +18,14 @@ export default defineConfig(({ mode }) => {
       react({
         // 仅在开发环境启用Fast Refresh
         include: '**/*.{tsx,ts}',
-        // Babel配置（可选优化）
-        babel: {
-          plugins: [
-            // 生产环境自动移除console
-            ...(mode === 'production'
-              ? [['transform-remove-console', { exclude: ['error', 'warn'] }]]
-              : []),
-          ],
-        },
       }),
       tailwindcss(),
     ],
+
+    esbuild: {
+      drop: mode === 'production' ? ['debugger'] : [],
+      pure: mode === 'production' ? ['console'] : [],
+    },
 
     // ========== 路径别名 ==========
     resolve: {

@@ -90,13 +90,20 @@ export const MenuItemComponent: React.FC<MenuItemComponentProps> = ({
       ref={anchorRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="relative"
+      className="relative my-1 mx-2"
     >
       <ListItemButton
         selected={isHighlight}
         className="rounded-lg mb-1"
         onClick={handleClick}
-        style={{ paddingLeft: `${12 + level * 12}px` }}
+        sx={theme => ({
+          paddingLeft: `${12 + level * 12}px`,
+          backgroundColor: theme.palette.background.paper + ' !important',
+          borderRadius: '8px',
+          boxShadow: isHighlight
+            ? '0 2px 3px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06),0 -2px 3px -2px rgba(0, 0, 0, 0.1)'
+            : 'none',
+        })}
       >
         {item.icon && (
           <ListItemIcon sx={{ color: isHighlight ? 'primary.main' : 'grey.500', minWidth: 40 }}>
@@ -109,7 +116,8 @@ export const MenuItemComponent: React.FC<MenuItemComponentProps> = ({
               primary={item.text}
               slotProps={{
                 primary: {
-                  className: isHighlight ? 'font-semibold' : 'font-normal',
+                  className: isHighlight ? '!font-bold' : '!font-normal',
+                  color: isHighlight ? 'primary.main' : 'text.primary',
                 },
               }}
             />

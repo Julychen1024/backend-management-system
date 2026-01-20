@@ -150,7 +150,14 @@ export const SubMenuItem: React.FC<{
           isHighlight ? '!bg-blue-50 !text-blue-600' : '!text-gray-600 hover:!bg-gray-100'
         }`}
         onClick={handleClick}
-        style={{ paddingLeft: '16px' }}
+        sx={theme => ({
+          paddingLeft: '12px',
+          backgroundColor: theme.palette.background.paper + ' !important',
+          borderRadius: '8px',
+          boxShadow: isHighlight
+            ? '0 2px 3px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06),0 -2px 3px -2px rgba(0, 0, 0, 0.1)'
+            : 'none',
+        })}
       >
         {item.icon && (
           <ListItemIcon sx={{ color: isHighlight ? 'primary.main' : 'grey.500', minWidth: 40 }}>
