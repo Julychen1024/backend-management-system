@@ -1,25 +1,15 @@
-// src/components/layout/Sidebar/index.tsx
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  Drawer,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Collapse,
-  Paper,
-  Popper,
-} from '@mui/material';
+import React from 'react';
+import { Drawer, List } from '@mui/material';
 import {
   Dashboard as DashboardIcon,
   People as PeopleIcon,
   Settings as SettingsIcon,
-  ExpandMore,
-  ChevronRight,
   MenuOutlined,
+  DisplaySettings,
 } from '@mui/icons-material';
-import { useNavigate, useLocation } from 'react-router';
+import { useNavigate } from 'react-router';
 import { HEADER_HEIGHT, SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_WIDTH } from '../config';
+import { MenuItemComponent } from './MenuItem';
 
 interface MenuItem {
   id: string;
@@ -34,7 +24,6 @@ interface SidebarProps {
   mobileOpen: boolean;
   isMobile: boolean;
   onDrawerToggle: () => void;
-  onCollapseToggle: () => void;
 }
 
 const menuItems: MenuItem[] = [
@@ -49,6 +38,12 @@ const menuItems: MenuItem[] = [
     text: '用户管理',
     icon: <PeopleIcon />,
     path: '/users',
+  },
+  {
+    id: 'theme-showcace',
+    text: '主题使用示例',
+    icon: <DisplaySettings />,
+    path: '/theme-showcase',
   },
   {
     id: 'settings',
@@ -85,300 +80,6 @@ const menuItems: MenuItem[] = [
     ],
   },
 ];
-
-// 自定义Hook：检查路由匹配
-const useRouteMatch = (path?: string) => {
-  const location = useLocation();
-  if (!path) return false;
-  return location.pathname === path || location.pathname.startsWith(`${path}/`);
-};
-
-// 检查是否有活跃子菜单
-const hasActiveChild = (items: MenuItem[], currentPath: string): boolean => {
-  return items.some(child => {
-    if (child.path && (currentPath === child.path || currentPath.startsWith(`${child.path}/`))) {
-      return true;
-    }
-    return child.children ? hasActiveChild(child.children, currentPath) : false;
-  });
-};
-
-// 子菜单弹出组件
-const SubMenuPopper: React.FC<{
-  item: MenuItem;
-  anchorEl: HTMLElement | null;
-  open: boolean;
-  onClose: () => void;
-  onMenuClick: (path?: string) => void;
-}> = ({ item, anchorEl, open, onClose, onMenuClick }) => {
-  const popperRef = useRef<HTMLDivElement>(null);
-  const [subMenuHovered, setSubMenuHovered] = useState<string | null>(null);
-
-  // 鼠标离开处理
-  useEffect(() => {
-    const currentPopperRef = popperRef.current; // 创建局部变量保存 ref 当前值
-
-    const handleMouseLeave = (event: MouseEvent) => {
-      if (
-        currentPopperRef &&
-        !currentPopperRef.contains(event.relatedTarget as Node) &&
-        anchorEl &&
-        !anchorEl.contains(event.relatedTarget as Node)
-      ) {
-        onClose();
-      }
-    };
-
-    if (open && currentPopperRef) {
-      currentPopperRef.addEventListener('mouseleave', handleMouseLeave);
-    }
-
-    return () => {
-      if (currentPopperRef) {
-        currentPopperRef.removeEventListener('mouseleave', handleMouseLeave);
-      }
-    };
-  }, [open, anchorEl, onClose]);
-
-  if (!item.children || item.children.length === 0) return null;
-
-  return (
-    <Popper
-      open={open}
-      anchorEl={anchorEl}
-      placement="right-start"
-      modifiers={[
-        {
-          name: 'offset',
-          options: {
-            offset: [0, 0],
-          },
-        },
-      ]}
-      style={{ zIndex: 1300 }}
-    >
-      <Paper ref={popperRef} className="min-w-48 shadow-lg border border-gray-200">
-        <List component="div" disablePadding>
-          {item.children.map(child => (
-            <SubMenuItem
-              key={child.id}
-              item={child}
-              onMenuClick={onMenuClick}
-              parentHovered={subMenuHovered}
-              onSubMenuHover={setSubMenuHovered}
-            />
-          ))}
-        </List>
-      </Paper>
-    </Popper>
-  );
-};
-
-// 子菜单项组件
-// 子菜单项组件
-const SubMenuItem: React.FC<{
-  item: MenuItem;
-  onMenuClick: (path?: string) => void;
-  parentHovered: string | null;
-  onSubMenuHover: (id: string | null) => void;
-}> = ({ item, onMenuClick, parentHovered, onSubMenuHover }) => {
-  const location = useLocation();
-  const anchorRef = useRef<HTMLDivElement>(null);
-  const isActive = useRouteMatch(item.path);
-  const activeChild = item.children ? hasActiveChild(item.children, location.pathname) : false;
-  const isHighlight = isActive || activeChild;
-  const hasChildren = item.children && item.children.length > 0;
-  const isHovered = parentHovered === item.id;
-
-  const handleMouseEnter = () => {
-    if (hasChildren) {
-      onSubMenuHover(item.id);
-    }
-  };
-
-  const handleMouseLeave = (event: React.MouseEvent) => {
-    const relatedTarget = event.relatedTarget as Node;
-    if (anchorRef.current && !anchorRef.current.contains(relatedTarget)) {
-      onSubMenuHover(null);
-    }
-  };
-
-  const handleClick = () => {
-    // 只有没有子菜单的项才跳转
-    if (!item.children || item.children.length === 0) {
-      if (item.path) {
-        onMenuClick(item.path);
-      }
-    }
-    // 有子菜单的项点击不跳转，只显示悬浮菜单
-  };
-
-  return (
-    <div
-      ref={anchorRef}
-      className="relative"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <ListItemButton
-        selected={isHighlight}
-        className={`rounded-lg mb-1 ${
-          isHighlight ? '!bg-blue-50 !text-blue-600' : '!text-gray-600 hover:!bg-gray-100'
-        }`}
-        onClick={handleClick}
-        style={{ paddingLeft: '16px' }}
-      >
-        {item.icon && (
-          <ListItemIcon className={isHighlight ? '!text-blue-600' : '!text-gray-400'}>
-            {item.icon}
-          </ListItemIcon>
-        )}
-        <ListItemText
-          primary={item.text}
-          slotProps={{
-            primary: {
-              className: isHighlight ? 'font-semibold' : 'font-normal',
-            },
-          }}
-        />
-        {hasChildren && <ChevronRight className="text-gray-400" />}
-      </ListItemButton>
-
-      {/* 三级菜单悬浮 */}
-      {hasChildren && isHovered && (
-        <SubMenuPopper
-          item={item}
-          anchorEl={anchorRef.current}
-          open={true}
-          onClose={() => onSubMenuHover(null)}
-          onMenuClick={onMenuClick}
-        />
-      )}
-    </div>
-  );
-};
-
-const MenuItemComponent: React.FC<{
-  item: MenuItem;
-  collapsed: boolean;
-  level?: number;
-  openItems?: Record<string, boolean>;
-  toggleOpen?: (key: string) => void;
-  onMenuClick: (path?: string) => void;
-}> = ({
-  item,
-  collapsed,
-  level = 0,
-  openItems = {},
-  toggleOpen = () => undefined,
-  onMenuClick,
-}) => {
-  const location = useLocation();
-  const [hovered, setHovered] = useState(false);
-  const anchorRef = useRef<HTMLDivElement>(null);
-
-  const key = item.id;
-  const isOpen = !!openItems[key];
-  const isActive = useRouteMatch(item.path);
-  const activeChild = item.children ? hasActiveChild(item.children, location.pathname) : false;
-  const isHighlight = isActive || activeChild;
-  const showHoverMenu = collapsed && level === 0 && item.children;
-
-  const handleClick = () => {
-    // 只有没有子菜单的项才跳转
-    if (!item.children || item.children.length === 0) {
-      if (item.path) {
-        onMenuClick(item.path);
-      }
-    } else {
-      // 有子菜单的项，在非折叠状态下切换展开状态
-      if (!collapsed) {
-        toggleOpen(key);
-      }
-      // 折叠状态下，有子菜单的项点击不跳转，只显示悬浮菜单
-    }
-  };
-
-  const handleMouseEnter = () => {
-    if (showHoverMenu) {
-      setHovered(true);
-    }
-  };
-
-  const handleMouseLeave = (event: React.MouseEvent) => {
-    const relatedTarget = event.relatedTarget as Node;
-    if (anchorRef.current && !anchorRef.current.contains(relatedTarget)) {
-      setHovered(false);
-    }
-  };
-
-  return (
-    <div
-      ref={anchorRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className="relative"
-    >
-      <ListItemButton
-        selected={isHighlight}
-        className={`rounded-lg mb-1 ${
-          isHighlight ? '!bg-blue-50 !text-blue-600' : '!text-gray-600 hover:!bg-gray-100'
-        }`}
-        onClick={handleClick}
-        style={{ paddingLeft: `${16 + level * 16}px` }}
-      >
-        {item.icon && (
-          <ListItemIcon className={isHighlight ? '!text-blue-600' : '!text-gray-400'}>
-            {item.icon}
-          </ListItemIcon>
-        )}
-        {(!collapsed || level > 0) && (
-          <>
-            <ListItemText
-              primary={item.text}
-              slotProps={{
-                primary: {
-                  className: isHighlight ? 'font-semibold' : 'font-normal',
-                },
-              }}
-            />
-            {item.children && !collapsed && <>{isOpen ? <ExpandMore /> : <ChevronRight />}</>}
-          </>
-        )}
-      </ListItemButton>
-
-      {/* 一级菜单悬浮子菜单 */}
-      {showHoverMenu && (
-        <SubMenuPopper
-          item={item}
-          anchorEl={anchorRef.current}
-          open={hovered}
-          onClose={() => setHovered(false)}
-          onMenuClick={onMenuClick}
-        />
-      )}
-
-      {/* 正常展开的子菜单（非折叠状态） */}
-      {item.children && !collapsed && (
-        <Collapse in={isOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {item.children.map(child => (
-              <MenuItemComponent
-                key={child.id}
-                item={child}
-                collapsed={collapsed}
-                level={level + 1}
-                openItems={openItems}
-                toggleOpen={toggleOpen}
-                onMenuClick={onMenuClick}
-              />
-            ))}
-          </List>
-        </Collapse>
-      )}
-    </div>
-  );
-};
 
 const Sidebar: React.FC<SidebarProps> = ({ collapsed, mobileOpen, isMobile, onDrawerToggle }) => {
   const [openItems, setOpenItems] = React.useState<Record<string, boolean>>({});

@@ -5,12 +5,9 @@ import { Menu as MenuIcon } from '@mui/icons-material';
 import Sidebar from '@/layouts/sidebar';
 import { HEADER_HEIGHT, SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_WIDTH } from '../config';
 import { useAppStore } from '@/stores/app';
+import { Outlet } from 'react-router';
 
-interface AdminLayoutProps {
-  children?: React.ReactNode;
-}
-
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+const AdminLayout: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -21,11 +18,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   } = useAppStore();
 
   const handleDrawerToggle = () => {
+    setSidebarCollapsed(isMobile ? false : !collapsed);
     setMobileOpen(!mobileOpen);
-  };
-
-  const handleCollapseToggle = () => {
-    setSidebarCollapsed(!collapsed);
   };
 
   return (
@@ -36,7 +30,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         mobileOpen={mobileOpen}
         isMobile={isMobile}
         onDrawerToggle={handleDrawerToggle}
-        onCollapseToggle={handleCollapseToggle}
       />
 
       {/* 主内容区域 */}
@@ -60,7 +53,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               edge="start"
               className="!mr-4 !text-gray-600"
               aria-label="打开菜单"
-              onClick={isMobile ? handleDrawerToggle : handleCollapseToggle}
+              onClick={handleDrawerToggle}
             >
               <MenuIcon />
             </IconButton>
@@ -71,8 +64,14 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
         </AppBar>
 
         {/* 页面内容 */}
-        <main className="overflow-auto p-2" style={{ height: `calc(100vh - ${HEADER_HEIGHT}px)` }}>
-          {children}
+        <main
+          className="overflow-auto p-2"
+          style={{
+            height: `calc(100vh - ${HEADER_HEIGHT}px)`,
+            backgroundColor: theme.palette.background.default,
+          }}
+        >
+          <Outlet />
         </main>
       </div>
     </div>

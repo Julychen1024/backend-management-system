@@ -1,8 +1,8 @@
 // src/App.tsx
 import React, { useEffect } from 'react';
 import { useAppStore } from '@/stores/app';
-import RouterRenderer from '@/routers/RouterRenderer';
-import { routes } from '@/routers';
+import { RouterProvider } from 'react-router';
+import { router } from './routers';
 
 const App: React.FC = () => {
   const { theme } = useAppStore();
@@ -12,7 +12,7 @@ const App: React.FC = () => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  return <RouterRenderer routes={routes} />;
+  return <RouterProvider router={router}></RouterProvider>;
 };
 
 export default App;

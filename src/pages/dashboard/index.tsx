@@ -14,7 +14,7 @@ const StatCard: React.FC<{
   icon: React.ReactNode;
   color: string;
 }> = ({ title, value, icon, color }) => (
-  <Card className="hover:shadow-lg transition-shadow">
+  <Card sx={{ backgroundColor: 'primary.light' }}>
     <CardContent>
       <Box className="flex items-center justify-between">
         <Box>

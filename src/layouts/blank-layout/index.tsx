@@ -1,11 +1,12 @@
 import React from 'react';
+import { Outlet } from 'react-router';
 
-interface BlankLayoutProps {
-  children?: React.ReactNode;
-}
-
-const BlankLayout: React.FC<BlankLayoutProps> = ({ children }) => {
-  return <div className="min-h-screen bg-gray-50">{children}</div>;
+const BlankLayout: React.FC = () => {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Outlet></Outlet>
+    </div>
+  );
 };
 
 export default BlankLayout;
