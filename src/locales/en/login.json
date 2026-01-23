@@ -1,0 +1,14 @@
+{
+  "error": {
+    "required": "Username and password are required.",
+    "failed": "Login failed."
+  },
+  "title": "Login",
+  "subtitle": "Welcome back!",
+  "form": {
+    "email": "Email",
+    "password": "Password"
+  },
+  "submit": "Login",
+  "hint": "Don't have an account?"
+}

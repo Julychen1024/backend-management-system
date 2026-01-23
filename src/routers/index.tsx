@@ -19,6 +19,7 @@ const Dashboard = lazy(() => import('@/pages/dashboard'));
 const User = lazy(() => import('@/pages/system/user'));
 const NotFound = lazy(() => import('@/pages/errors/404'));
 const ThemeShowcase = lazy(() => import('@/pages/theme-showcase'));
+const I18nDemo = lazy(() => import('@/pages/i18n-demo'));
 
 const routes: AppRoute[] = [
   {
@@ -43,6 +44,11 @@ const routes: AppRoute[] = [
         path: 'theme-showcase',
         element: lazyLoad(ThemeShowcase),
         meta: { title: '主题使用示例', requiresAuth: true },
+      },
+      {
+        path: 'i18n-demo',
+        element: lazyLoad(I18nDemo),
+        meta: { title: 'I18n使用示例', requiresAuth: true },
       },
     ],
   },

@@ -1,0 +1,14 @@
+{
+  "error": {
+    "required": "",
+    "failed": ""
+  },
+  "title": "",
+  "subtitle": "",
+  "form": {
+    "email": "",
+    "password": ""
+  },
+  "submit": "",
+  "hint": ""
+}

@@ -1,0 +1,19 @@
+{
+  "greeting": "你好，{{name}}！",
+  "itemCount": "你有 {{num}} 个项目",
+  "currentDate": "今天是：{{date}}",
+  "title": "国际化演示",
+  "sections": {
+    "basic": "基础翻译",
+    "advanced": "高级特性",
+    "jsx": "JSX 混排",
+    "mui": "MUI 组件"
+  },
+  "jsx": {
+    "example": "欢迎使用 <strong>{{product}}</strong>，请查看 <code>src/locales</code> 目录了解更多。"
+  },
+  "mui": {
+    "hint": "按钮组件的文本已通过 i18n 翻译，切换语言查看效果。"
+  },
+  "itemCount_plural": "你有 {{num}} 个项目"
+}

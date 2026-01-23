@@ -2,11 +2,15 @@ import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { Card, TextField, Button, Typography, Box, Alert } from '@mui/material';
 import { useAuthStore } from '@/stores/auth';
+import { useTranslation } from 'react-i18next';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { login, isLoading } = useAuthStore();
+
+  // 显式声明命名空间（可选，主要用于类型推断）
+  const { t } = useTranslation(['common', 'login']);
 
   const [formData, setFormData] = React.useState({
     email: 'admin@example.com',
@@ -20,7 +24,6 @@ const Login: React.FC = () => {
       ...prev,
       [name]: value,
     }));
-    // 清除错误信息
     if (error) setError('');
   };
 
@@ -28,18 +31,16 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
-      setError('请输入邮箱和密码');
+      setError(t('login:error.required')); // 显式命名空间
       return;
     }
 
     try {
       await login(formData.email, formData.password);
-
-      // 登录成功，重定向到目标页面或首页
       const redirect = searchParams.get('redirect') ?? '/';
       void navigate(redirect, { replace: true });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : '登录失败');
+    } catch (_err) {
+      setError(t('login:error.failed')); // 显式命名空间
     }
   };
 
@@ -48,10 +49,10 @@ const Login: React.FC = () => {
       <Card className="w-full max-w-md p-8 shadow-xl">
         <Box className="text-center mb-8">
           <Typography variant="h4" className="font-bold text-gray-800 mb-2">
-            欢迎回来
+            {t('login:title')} {/* 明确指定 login 命名空间 */}
           </Typography>
           <Typography variant="body1" className="text-gray-600">
-            请输入您的账号信息
+            {t('login:subtitle')}
           </Typography>
         </Box>
 
@@ -64,7 +65,7 @@ const Login: React.FC = () => {
         <form onSubmit={e => void handleSubmit(e)}>
           <TextField
             fullWidth
-            label="邮箱地址"
+            label={t('login:form.email')} // 显式前缀
             name="email"
             type="email"
             value={formData.email}
@@ -76,7 +77,7 @@ const Login: React.FC = () => {
 
           <TextField
             fullWidth
-            label="密码"
+            label={t('login:form.password')} // 显式前缀
             name="password"
             type="password"
             value={formData.password}
@@ -94,13 +95,13 @@ const Login: React.FC = () => {
             disabled={isLoading}
             className="bg-blue-600 hover:bg-blue-700 py-3"
           >
-            {isLoading ? '登录中...' : '登录'}
+            {isLoading ? t('common:loading') : t('login:submit')}
           </Button>
         </form>
 
         <Box className="mt-6 text-center">
           <Typography variant="body2" className="text-gray-500">
-            测试账号: admin@example.com / password
+            {t('login:hint')}
           </Typography>
         </Box>
       </Card>

@@ -1,0 +1,19 @@
+{
+  "greeting": "Hello, {{name}}!",
+  "itemCount": "You have {{num}} item",
+  "currentDate": "Today is: {{date}}",
+  "title": "Internationalization Demo",
+  "sections": {
+    "basic": "Basic Translation",
+    "advanced": "Advanced Features",
+    "jsx": "JSX Interpolation",
+    "mui": "MUI Components"
+  },
+  "jsx": {
+    "example": "Welcome to <strong>{{product}}</strong>, check <code>src/locales</code> for more."
+  },
+  "mui": {
+    "hint": "Button texts are translated via i18n, switch language to see effect."
+  },
+  "itemCount_plural": "You have {{num}} items"
+}

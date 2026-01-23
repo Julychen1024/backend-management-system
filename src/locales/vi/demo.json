@@ -1,0 +1,19 @@
+{
+  "greeting": "Xin chào, {{name}}!",
+  "itemCount": "Bạn có {{num}} mục",
+  "currentDate": "Hôm nay là: {{date}}",
+  "title": "Bản Demo Đa Ngôn Ngữ",
+  "sections": {
+    "basic": "Dịch Cơ Bản",
+    "advanced": "Tính Năng Nâng Cao",
+    "jsx": "Chèn JSX",
+    "mui": "Thành Phần MUI"
+  },
+  "jsx": {
+    "example": "Chào mừng bạn đến với <strong>{{product}}</strong>, hãy xem thư mục <code>src/locales</code> để biết thêm."
+  },
+  "mui": {
+    "hint": "Văn bản nút đã được dịch qua i18n, hãy chuyển ngôn ngữ để xem hiệu ứng."
+  },
+  "itemCount_plural": "Bạn có {{num}} mục"
+}
