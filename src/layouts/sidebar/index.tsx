@@ -46,6 +46,12 @@ const menuItems: MenuItem[] = [
     path: '/theme-showcase',
   },
   {
+    id: 'i18n',
+    text: 'I18n使用示例',
+    icon: <DisplaySettings />,
+    path: '/i18n-demo',
+  },
+  {
     id: 'settings',
     text: '一级菜单',
     icon: <SettingsIcon />,

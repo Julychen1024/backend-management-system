@@ -1,0 +1,13 @@
+{
+  "language": {
+    "switch": ""
+  },
+  "guest": "Guest",
+  "name": "Name",
+  "decrease": "Decrease",
+  "increase": "Increase",
+  "submit": "Submit",
+  "cancel": "Cancel",
+  "reset": "Reset",
+  "loading": ""
+}

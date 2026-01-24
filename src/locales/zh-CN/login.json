@@ -1,0 +1,14 @@
+{
+  "error": {
+    "required": "用户名/密码不能为空。",
+    "failed": "登录失败。"
+  },
+  "title": "登录",
+  "subtitle": "欢迎回来",
+  "form": {
+    "email": "用户名",
+    "password": "密码"
+  },
+  "submit": "登录",
+  "hint": "尚未注册？"
+}

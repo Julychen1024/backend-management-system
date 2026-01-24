@@ -1,0 +1,13 @@
+{
+  "language": {
+    "switch": ""
+  },
+  "guest": "Khách",
+  "name": "Tên",
+  "decrease": "Giảm",
+  "increase": "Tăng",
+  "submit": "Gửi",
+  "cancel": "Hủy",
+  "reset": "Đặt lại",
+  "loading": ""
+}

@@ -1,4 +1,4 @@
-// src/providers/ThemeProvider.tsx
+// src/themes/ThemeProvider.tsx
 import React, { useEffect } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';

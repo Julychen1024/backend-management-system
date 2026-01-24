@@ -89,6 +89,7 @@ export const createAppTheme = (config: Partial<ThemeConfig> = {}) => {
 
   return createTheme({
     cssVariables: true, // 启用CSS变量支持
+
     palette: {
       mode,
       primary: {
